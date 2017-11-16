@@ -10,10 +10,6 @@ app.config(function($routeProvider, $httpProvider) {
 		templateUrl : 'login.html',
 		controller : 'login',
 		controllerAs: 'controller'
-	}).when('/register', {
-		templateUrl : 'register.html',
-		controller : 'register',
-		controllerAs: 'controller'
 	}).when('/movies', {
 		templateUrl : 'movies.html',
 		controller : 'movies',
@@ -23,11 +19,11 @@ app.config(function($routeProvider, $httpProvider) {
 		controller : 'users',
 		controllerAs: 'controller'
 	}).otherwise('/');
-
+	
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
-
 });
+
 
 app.config(function (HateoasInterceptorProvider) {
     HateoasInterceptorProvider.transformAllResponses();
@@ -58,27 +54,6 @@ app.service('authService', ['$rootScope', '$http', function($rootScope, $http) {
 		});
 	};
 	
-	var registerImpl = function (credentials, callback) {
-
-		console.log('register impl');
-		$http.post('rest/secureUsers/', {
-			name: credentials.name,
-			password: credentials.password,
-			role: 'ROLE_USER'
-		},
-		{
-			headers : {
-				authorization : 'Basic ' + btoa('create_user:create_user')
-			}
-		}).then(function(response){
-			console.log('register successs');
-			callback && callback(true);
-		}, function(response){
-			console.log('register error');
-			callback && callback(false);
-		});
-	};
-	
 	var getRoleImpl = function () {
     	if ($rootScope.currentUser) {
     		return $rootScope.currentUser.role ? $rootScope.currentUser.role : $rootScope.currentUser.authorities.map(function(elem) {return elem.authority});
@@ -87,7 +62,6 @@ app.service('authService', ['$rootScope', '$http', function($rootScope, $http) {
 	
 	return {
 		authenticate: authenticateImpl,
-		register: registerImpl,
 		getRole: getRoleImpl,
 	};
 }]);
@@ -113,8 +87,7 @@ app.controller('navigation', ['$rootScope', '$scope', '$http', '$location', 'aut
         [{ name: 'home', url: '/home'},
          { name: 'movies', url: '/movies'},
          { name: 'users', url: '/users'},
-         { name: 'login', url: '/login'},
-         { name: 'register', url: '/register'}];
+         { name: 'login', url: '/login'}];
     $scope.template = $scope.templates[0];
     
     $scope.logout = function() {
@@ -126,11 +99,7 @@ app.controller('navigation', ['$rootScope', '$scope', '$http', '$location', 'aut
 	}
     
     authService.authenticate($scope.credentials, function(authenticated) {
-		if (authenticated) {
-			$rootScope.authenticated = true;
-		} else {
-			$rootScope.authenticated = false;
-		}
+		$rootScope.authenticated = authenticated === true;
 	});
     
     $rootScope.isUsersVisible = function() {
@@ -163,56 +132,11 @@ app.controller('login', ['$rootScope', '$scope', 'authService', function($rootSc
 	};
 	
 }]);
-
-app.controller('register', ['$rootScope', '$scope', '$http', 'authService', function($rootScope, $scope, $http, authService) {
-	console.log('register ctrl');
-	
-	$scope.registerCredentials = {};
-	$scope.register = function() {
-		
-		console.log('register func: ' + JSON.stringify($scope.registerCredentials));
-
-		if (!$scope.registerCredentials.username || !$scope.registerCredentials.password1 || !$scope.registerCredentials.password2) {
-			$scope.error = true;
-		} else if ($scope.registerCredentials.password1 != $scope.registerCredentials.password2) {
-			$scope.error = true;
-		} else {
-						
-			authService.register({
-				"name": $scope.registerCredentials.username,
-				"password": $scope.registerCredentials.password1
-			}, function(success) {
-				console.log('response: ' + success);
-				if (success == true) {
-					$scope.error = false;
-					$http.post('logout', {}).finally(function() {
-						$rootScope.authenticated = false;
-						$scope.setTab(1);
-					});
-				} else {
-					$scope.error = true;
-				}
-			});
-		}
-	};
-}]);
 		
 app.controller('home', ['$rootScope', '$scope', '$http', 'authService', 'User', function($rootScope, $scope, $http, authService, User) {
 	console.log('home ctrl');
 	
 	$scope.editUser = {};
-	
-	authService.authenticate($scope.credentials, function(authenticated) {
-		if (authenticated) {
-			$rootScope.authenticated = true;
-			$scope.editUser.id = $rootScope.currentUser.id;
-			$scope.editUser.name = $rootScope.currentUser.name;
-			$scope.editUser.role = $rootScope.currentUser.role;
-			
-		} else {
-			$rootScope.authenticated = false;
-		}
-	});
 	
 	$scope.updateUser = function() {
 		
@@ -257,6 +181,4 @@ function getId(data) {
 	var urlStr = data._links.self.href;
 	return urlStr.substring(urlStr.lastIndexOf('/') + 1);
 }
-
-var passRegex = /^(?=.*[a-z])[0-9a-zA-Z]{4,20}$/;
 

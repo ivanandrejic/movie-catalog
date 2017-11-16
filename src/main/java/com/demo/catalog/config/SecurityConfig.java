@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/index.html", "/home.html", "/login.html", "/register.html", "/").permitAll()
+				.antMatchers("/index.html", "/home.html", "/login.html", "/").permitAll()
 				.antMatchers("/createUser").hasAnyRole("CREATE_USER", "ADMIN")
 				.anyRequest().authenticated()
 				.and()
@@ -50,15 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             	.loginPage("/#/login")
 				.and()
 			.httpBasic()
-//				.and()
-//			.csrf()
-//				.disable()
+				.and()
+			.csrf()
+				.disable()
 //				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //				.and()
 //			.requiresChannel()
 //                .anyRequest().requiresSecure()
 //			.logout()
-//				.logoutSuccessUrl("/");
+//				.logoutSuccessUrl("/")
 				;
 	}
 

@@ -12,11 +12,11 @@
 
 </head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	
@@ -29,7 +29,6 @@
 			<li ng-show="authenticated && isMoviesVisible()" ng-class="{ active: isSet(2)}"><a href ng-click="setTab(2)">movies</a></li>
 			<li ng-show="authenticated && isUsersVisible()" ng-class="{ active: isSet(3)}"><a href ng-click="setTab(3)">users</a></li>
 			<li ng-show="!authenticated" ng-class="{ active: isSet(4)}"><a href ng-click="setTab(4)">login</a></li>
-			<li ng-show="!authenticated" ng-class="{ active: isSet(5)}"><a href ng-click="setTab(5)">register</a></li>
 			<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
 		</ul>
 		
