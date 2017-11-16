@@ -1,0 +1,18 @@
+<div class="alert alert-danger" ng-show="error">
+	User cannot be registered 
+</div>
+<form id="loginForm">
+	<div class="form-group">
+		<label for="username">Username:</label> <input type="text"
+			class="form-control" id="username" name="username" ng-model="registerCredentials.username"/>
+	</div>
+	<div class="form-group">
+		<label for="password">Password:</label> <input type="password"
+			class="form-control" id="password1" name="password" ng-model="registerCredentials.password1"/>
+	</div>
+	<div class="form-group">
+		<label for="password">Repeat Password:</label> <input type="password"
+			class="form-control" id="password2" name="password" ng-model="registerCredentials.password2"/>
+	</div>
+	<button type="submit" class="btn btn-primary" ng-click="register()">Submit</button>
+</form>

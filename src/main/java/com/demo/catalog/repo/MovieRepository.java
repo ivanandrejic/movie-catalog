@@ -14,6 +14,8 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	public Movie findByTitle(@Param("title") String title);
 	
+	public List<Movie> findByTitleContaining(@Param("title") String title);
+	
 	public List<Movie> findByMainActor(@Param("mainActor") String mainActor);
 	
 	public List<Movie> findByCategory(@Param("category") String category);
