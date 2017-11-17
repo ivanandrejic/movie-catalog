@@ -27,18 +27,24 @@
 		<thead>
 			<tr>
 				<th>Title</th>
-				<th>City</th>
-		        <th>Time Movie Offset</th>
+				<th>Category</th>
+				<th>Release Date</th>
+				<th>Main Actor</th>
+				<th>Icon</th>
 		    </tr>
 	    </thead>
 	    <tbody>
 			<tr ng-repeat="movie in movies">
 				<td ng-show="!movie.edit">{{movie.title}}</td>
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.title"/></td>
-				<td ng-show="!movie.edit">{{movie.city}}</td>
-				<td ng-show="movie.edit"><input type="text" ng-model="movie.city"/></td>
-				<td ng-show="!movie.edit">{{ movie.offset > 0 ? '+' + movie.offset : movie.offset }}</td>
-				<td ng-show="movie.edit"><input type="text" ng-model="movie.offset"/></td>
+				<td ng-show="!movie.edit">{{movie.category}}</td>
+				<td ng-show="movie.edit"><input type="text" ng-model="movie.category"/></td>
+				<td ng-show="!movie.edit">{{ formatDate(movie.releaseDate) }}</td>
+				<td ng-show="movie.edit"><input type="text" ng-model="movie.releaseDate"/></td>
+				<td ng-show="!movie.edit">{{movie.mainActor}}</td>
+				<td ng-show="movie.edit"><input type="text" ng-model="movie.mainActor"/></td>
+				<td ng-show="!movie.edit">{{movie.iconData}}</td>
+				<td ng-show="movie.edit"><input type="text" ng-model="movie.iconData"/></td>
 				<td>
 				<button ng-show="!movie.edit" type="button" ng-click="editMovie(movie)" class="btn btn-sm btn-danger">
 					<i class="glyphicon glyphicon-pencil">

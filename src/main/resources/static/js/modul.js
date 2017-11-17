@@ -133,38 +133,8 @@ app.controller('login', ['$rootScope', '$scope', 'authService', function($rootSc
 	
 }]);
 		
-app.controller('home', ['$rootScope', '$scope', '$http', 'authService', 'User', function($rootScope, $scope, $http, authService, User) {
+app.controller('home', ['$rootScope', '$scope', function($rootScope, $scope) {
 	console.log('home ctrl');
-	
-	$scope.editUser = {};
-	
-	$scope.updateUser = function() {
-		
-		if ($scope.editUser.password1 != $scope.editUser.password2) {
-			$scope.error = true;
-		} else if ($scope.editUser.password1 && !$scope.editUser.password1.match(passRegex)) {
-			$scope.error = true;
-		} else {
-			$scope.error = false;
-			User.update({ id:$rootScope.currentUser.id }, 
-				{
-					id: $rootScope.currentUser.id,
-					name: $scope.editUser.name,
-					password: $scope.editUser.password1,
-					role: $rootScope.currentUser.role,
-				}, 
-				function (value) {
-					console.log('update successs');
-					$scope.setTab(1);
-			}, 
-			function (value) {
-				console.log('update error');
-			}
-			);
-		}
-		
-	}
-	
 }]);
 
 app.factory('Movie', ['$resource', function($resource) {

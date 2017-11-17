@@ -14,12 +14,12 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	public Movie findByTitle(@Param("title") String title);
 	
-	public List<Movie> findByTitleContaining(@Param("title") String title);
+	public List<Movie> findByTitleStartingWith(@Param("title") String title);
 	
-	public List<Movie> findByMainActor(@Param("mainActor") String mainActor);
+	public List<Movie> findByMainActorStartingWith(@Param("mainActor") String mainActor);
 	
-	public List<Movie> findByCategory(@Param("category") String category);
+	public List<Movie> findByCategoryStartingWith(@Param("category") String category);
 	
-	public List<Movie> findByReleaseDate(@Param("releaseDate") Date releaseDate);
+	public List<Movie> findByReleaseDateStartingWith(@Param("releaseDate") Date releaseDate);
 
 }

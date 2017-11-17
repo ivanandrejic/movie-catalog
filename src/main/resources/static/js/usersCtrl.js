@@ -36,7 +36,7 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
 	
     $scope.addUser = function addUser() {
         $scope.users.push({
-        	'name' : '',
+        	'username' : '',
             'role' : 'ROLE_USER',
             'edit' : true,
             'newUser' : true
@@ -60,11 +60,11 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
     	
     	user.edit = false;
     	var userToSave = new User();
-    	userToSave.name = user.name;
+    	userToSave.username = user.username;
     	userToSave.role = user.role;
     	if (user.newUser) {
     		userToSave.$save(null, function(value) {
-    			console.log('saved user: ' + value.name)
+    			console.log('saved user: ' + value.username)
     			$scope.users[index] = value;
     		}, function () {
     			console.log('saved user error');

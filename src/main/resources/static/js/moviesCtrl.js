@@ -21,7 +21,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	}	
 	
 	function getNameUrl() {
-		return '/rest/movies/search/findByTitleContaining?title=:title';
+		return '/rest/movies/search/findByTitleStartingWith?title=:title';
 	}
 	
 	function getAllUrl() {
@@ -55,12 +55,12 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     	
     	movie.edit = false;
     	var movieToSave = {};
-    	movieToSave.offset = movie.offset;
-    	movieToSave.name = movie.name;
-    	movieToSave.city = movie.city;
-    	movieToSave.userId = movie.userId;
+    	movieToSave.title = movie.title;
+    	movieToSave.category = movie.category;
+    	movieToSave.releaseDate = movie.releaseDate;
+    	movieToSave.mainActor = movie.mainActor;
+    	movieToSave.iconData = movie.iconData;
     	if (movie.newMovie) {
-    		movieToSave.userId = $rootScope.currentUser.id;
     		Movie.save(null, movieToSave, function(value) {
     			console.log('saved movie: ' + value)
     			$scope.movies[index] = value;
@@ -94,6 +94,11 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		});
     	}
     	
+    }
+    
+    $scope.formatDate = function (dateStr) {
+    	let date = new Date(dateStr);
+    	return date.getDate() + '-' + (date.getMonth()+1) + '-' + date.getFullYear(); 
     }
 	
 	$scope.movies = [];

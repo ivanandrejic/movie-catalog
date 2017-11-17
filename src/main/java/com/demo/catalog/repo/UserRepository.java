@@ -13,6 +13,6 @@ public interface UserRepository extends MongoRepository<SecureUser, String> {
 
 	public SecureUser findByUsername(@Param("username")String username);
 	
-	public List<SecureUser> findByUsernameContaining(@Param("username")String username);
+	public List<SecureUser> findByUsernameStartingWith(@Param("username")String username);
 
 }

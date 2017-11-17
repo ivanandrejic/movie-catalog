@@ -23,7 +23,7 @@ public class SecureUser {
 
 	private String username;
 	
-	private String password;
+	private String password = SecureUser.PASSWORD_ENCODER.encode(SecureUser.DEFAULT_PASSWORD);
 	
 	private String role;
 
