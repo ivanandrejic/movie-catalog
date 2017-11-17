@@ -17,7 +17,6 @@ public class LocalUserDetailsService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepo;
 
-
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 		SecureUser user = userRepo.findByUsername(name);

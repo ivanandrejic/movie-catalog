@@ -33,7 +33,7 @@ app.service('authService', ['$rootScope', '$http', function($rootScope, $http) {
 	
 	var authenticateImpl = function (credentials, callback) {
 
-		var headers = credentials ? {
+		let headers = credentials ? {
 			authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
 		} : {};
 		
@@ -148,7 +148,7 @@ app.factory('User', ['$resource', function($resource) {
 }]);
 
 function getId(data) {
-	var urlStr = data._links.self.href;
+	let urlStr = data._links.self.href;
 	return urlStr.substring(urlStr.lastIndexOf('/') + 1);
 }
 

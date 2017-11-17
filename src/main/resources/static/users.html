@@ -4,9 +4,7 @@
 	<div class="alert alert-danger" ng-show="error">
 		There was a problem.
 	</div>
-
 	<p>Current user: {{currentUser.username}}</p>
-	
 	<div>
 		<label for="byName">User Name:</label>
         <input id="byName" type="text" ng-model="byName">
@@ -41,9 +39,7 @@
 					  <option value="ROLE_USER">ROLE_USER</option>
 					  <option value="ROLE_ADMIN">ROLE_ADMIN</option>
 					</select> 
-				
 				</td>
-				
 				<td>
 				<button ng-show="!user.edit" type="button" ng-click="editUser(user)" class="btn btn-sm btn-danger">
 					<i class="glyphicon glyphicon-pencil">

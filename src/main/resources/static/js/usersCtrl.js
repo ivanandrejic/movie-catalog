@@ -11,15 +11,11 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
 		
 		if ($rootScope.currentUser) {
 			console.log('current user: ' + JSON.stringify($rootScope.currentUser));
-			
+			let User = $resource(getAllUrl());
 			if ($scope.byName) {			
-				var User = $resource(getNameUrl(), { username: $scope.byName });
-				
-			} else {			
-				var User = $resource(getAllUrl());
+				User = $resource(getNameUrl(), { username: $scope.byName });
 			}
-			
-			var users = User.get(null, function () {
+			let users = User.get(null, function () {
 				console.debug('users: ' + users);
 				$scope.users = users._embedded.secureUsers;
 			});
@@ -44,7 +40,7 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
     };
 
     $scope.removeUser = function removeUser(user) {
-        var index = $scope.users.indexOf(user);
+        let index = $scope.users.indexOf(user);
         if (index !== -1 && !user.newUser) {
         	User.delete({ id:getId(user)});
             $scope.users.splice(index, 1);
@@ -56,10 +52,10 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
     }
     
     $scope.saveUser = function saveUser(user) {
-    	var index = $scope.users.indexOf(user);
+    	let index = $scope.users.indexOf(user);
     	
     	user.edit = false;
-    	var userToSave = new User();
+    	let userToSave = new User();
     	userToSave.username = user.username;
     	userToSave.role = user.role;
     	if (user.newUser) {
@@ -79,7 +75,7 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
     
     $scope.cancelUser = function cancelUser(user) {
     	user.edit = false;
-    	var index = $scope.users.indexOf(user);
+    	let index = $scope.users.indexOf(user);
     	if (user.newUser) {
     		$scope.users.splice(index, 1);
     	} else {    
@@ -93,4 +89,5 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
 	
 	$scope.users = [];
 	$scope.error = false;
+	
 }]);

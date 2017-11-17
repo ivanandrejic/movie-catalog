@@ -4,20 +4,15 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	$scope.searchMovies = function searchMovies() {
 		if ($rootScope.currentUser) {
 			console.log('current movies: ' + JSON.stringify($rootScope.currentUser));
-			
+			let Movie = $resource(getAllUrl());
 			if ($scope.byTitle) {			
-				var Movie = $resource(getNameUrl(), { title: $scope.byTitle });
-				
-			} else {			
-				var Movie = $resource(getAllUrl());
+				Movie = $resource(getNameUrl(), { title: $scope.byTitle });
 			}
-			
-			var movies = Movie.get(null, function () {
+			let movies = Movie.get(null, function () {
 				console.debug('movies: ' + movies);
 				$scope.movies = movies._embedded.movies;
 			});
 		}
-		
 	}	
 	
 	function getNameUrl() {
@@ -39,7 +34,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     };
 
     $scope.removeMovie = function removeMovie(movie) {
-        var index = $scope.movies.indexOf(movie);
+        let index = $scope.movies.indexOf(movie);
         if (index !== -1 && !movie.newMovie) {
         	Movie.delete({ id:getId(movie)});
             $scope.movies.splice(index, 1);
@@ -51,10 +46,10 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     }
     
     $scope.saveMovie = function saveMovie(movie) {
-    	var index = $scope.movies.indexOf(movie);
+    	let index = $scope.movies.indexOf(movie);
     	
     	movie.edit = false;
-    	var movieToSave = {};
+    	let movieToSave = {};
     	movieToSave.title = movie.title;
     	movieToSave.category = movie.category;
     	movieToSave.releaseDate = movie.releaseDate;
@@ -84,7 +79,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     
     $scope.cancelMovie = function cancelMovie(movie) {
     	movie.edit = false;
-    	var index = $scope.movies.indexOf(movie);
+    	let index = $scope.movies.indexOf(movie);
     	if (movie.newMovie) {
     		$scope.movies.splice(index, 1);
     	} else {    
@@ -103,4 +98,5 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	
 	$scope.movies = [];
 	$scope.error = false;
+	
 }]);
