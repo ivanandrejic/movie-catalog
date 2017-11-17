@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.catalog.domain.SecureUser;
-import com.demo.catalog.repo.UserRepository;
+import com.demo.catalog.repo.LoginRepository;
 
 @RestController
 public class HomeController {
 	
 	@Autowired
-	private UserRepository userRepo;
+	private LoginRepository userRepo;
 
 	@RequestMapping("/user")
 	public ResponseEntity<?> user(Principal principal) {

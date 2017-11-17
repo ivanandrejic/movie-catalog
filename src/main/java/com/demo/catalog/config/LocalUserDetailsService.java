@@ -9,13 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.demo.catalog.domain.SecureUser;
-import com.demo.catalog.repo.UserRepository;
+import com.demo.catalog.repo.LoginRepository;
 
 @Component
 public class LocalUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepo;
+	private LoginRepository userRepo;
 
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {

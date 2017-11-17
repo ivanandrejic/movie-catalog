@@ -77,6 +77,18 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     	}
     }
     
+    function readIcon(formName, fileName, callback) {
+    	var fileInput = document.forms[formName]["file"];
+    	var file = fileInput.files[0];
+    	if (file) {
+    		var reader = new FileReader();
+    		reader.onloadend = function() {
+    			callback(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""));
+    		}
+    		reader.readAsDataURL(file);
+    	}
+    }
+    
     $scope.cancelMovie = function cancelMovie(movie) {
     	movie.edit = false;
     	let index = $scope.movies.indexOf(movie);
@@ -99,4 +111,23 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	$scope.movies = [];
 	$scope.error = false;
 	
+}]);
+
+app.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                    });
+                }
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    }
 }]);

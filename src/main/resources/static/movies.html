@@ -7,9 +7,17 @@
 
 	<h4>Current user: {{currentUser.username}}</h4>
 	
-	<div>
-		<label for="byTitle">Movie Title:</label>
-        <input id="byTitle" type="text" ng-model="byTitle">
+	<div class="input-group">
+        <span class="input-group-addon" id="byTitleDesc">Title</span>
+  		<input id="byTitle" type="text" ng-model="byTitle" class="form-control" aria-describedby="byTitleDesc">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="byCategoryDesc">Category</span>
+  		<input id="byCategory" type="text" ng-model="byCategory" class="form-control" aria-describedby="byCategoryDesc">
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="byDateDesc">Release Date</span>
+  		<input id="byDate" type="text" ng-model="byDate" class="form-control" aria-describedby="byDateDesc">
     </div>
 
 	<br>
@@ -43,8 +51,10 @@
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.releaseDate"/></td>
 				<td ng-show="!movie.edit">{{movie.mainActor}}</td>
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.mainActor"/></td>
-				<td ng-show="!movie.edit">{{movie.iconData}}</td>
-				<td ng-show="movie.edit"><input type="text" ng-model="movie.iconData"/></td>
+				<td ng-show="!movie.edit">
+					<img style="display:block; width:100px;height:100px;" id="base64image" data-ng-src="data:image/png;base64,{{movie.iconData}}" />
+				</td>
+				<td ng-show="movie.edit"><input type="file" name="file" fileread="movie.iconData"/></td>
 				<td>
 				<button ng-show="!movie.edit" type="button" ng-click="editMovie(movie)" class="btn btn-sm btn-danger">
 					<i class="glyphicon glyphicon-pencil">

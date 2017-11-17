@@ -16,7 +16,6 @@ public class SecureUser {
 	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	public static final String DEFAULT_PASSWORD = "demo";
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_CREATE_USER = "ROLE_CREATE_USER";
 	public static final String ROLE_USER = "ROLE_USER";
 
 	private @Id String id;
