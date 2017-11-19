@@ -5,9 +5,13 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 		if ($rootScope.currentUser) {
 			console.log('current movies: ' + JSON.stringify($rootScope.currentUser));
 			let Movie = $resource(getAllUrl());
-			if ($scope.byTitle) {			
-				Movie = $resource(getNameUrl(), { title: $scope.byTitle });
-			}
+			if ($scope.byTitle || $scope.byActor || $scope.byCategory || $scope.byDate) {			
+				Movie = $resource(getNameUrl(), 
+					{ title: $scope.byTitle,
+					  mainActor: $scope.byActor, 
+					  category: $scope.byCategory, 
+					  releaseDate: ($scope.byDate?  $scope.byDate : '1-1-1900')});
+			} 
 			let movies = Movie.get(null, function () {
 				console.debug('movies: ' + movies);
 				$scope.movies = movies._embedded.movies;
@@ -16,7 +20,8 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	}	
 	
 	function getNameUrl() {
-		return '/rest/movies/search/findByTitleStartingWith?title=:title';
+		return '/rest/movies/search/findByAll?title=:title&mainActor=:mainActor&category=:category&releaseDate=:releaseDate';
+//		return '/rest/movies/search/findByTitleStartingWith?title=:title';
 	}
 	
 	function getAllUrl() {
@@ -113,17 +118,17 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	
 }]);
 
-app.directive("fileread", [function () {
+app.directive("imageread", [function () {
     return {
         scope: {
-            fileread: "="
+        	imageread: "="
         },
         link: function (scope, element, attributes) {
             element.bind("change", function (changeEvent) {
                 var reader = new FileReader();
                 reader.onload = function (loadEvent) {
                     scope.$apply(function () {
-                        scope.fileread = loadEvent.target.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                        scope.imageread = loadEvent.target.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
                     });
                 }
                 reader.readAsDataURL(changeEvent.target.files[0]);

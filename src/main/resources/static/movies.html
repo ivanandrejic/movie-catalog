@@ -12,6 +12,10 @@
   		<input id="byTitle" type="text" ng-model="byTitle" class="form-control" aria-describedby="byTitleDesc">
     </div>
     <div class="input-group">
+        <span class="input-group-addon" id="byActorDesc">Main Actor</span>
+  		<input id="byActor" type="text" ng-model="byActor" class="form-control" aria-describedby="byActorDesc">
+    </div>
+    <div class="input-group">
         <span class="input-group-addon" id="byCategoryDesc">Category</span>
   		<input id="byCategory" type="text" ng-model="byCategory" class="form-control" aria-describedby="byCategoryDesc">
     </div>
@@ -54,7 +58,7 @@
 				<td ng-show="!movie.edit">
 					<img style="display:block; width:100px;height:100px;" id="base64image" data-ng-src="data:image/png;base64,{{movie.iconData}}" />
 				</td>
-				<td ng-show="movie.edit"><input type="file" name="file" fileread="movie.iconData"/></td>
+				<td ng-show="movie.edit"><input type="file" name="file" imageread="movie.iconData"/></td>
 				<td>
 				<button ng-show="!movie.edit" type="button" ng-click="editMovie(movie)" class="btn btn-sm btn-danger">
 					<i class="glyphicon glyphicon-pencil">

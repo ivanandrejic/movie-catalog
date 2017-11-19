@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.demo.catalog.domain.Movie;
 
@@ -22,4 +24,13 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	public List<Movie> findByReleaseDateStartingWith(@Param("releaseDate") Date releaseDate);
 
+	@Query("{ 'title' : { $regex: ?0 },"
+			+ "'mainActor' : { $regex: ?1 }, "
+			+ "'category' : { $regex: ?2 }, "
+			+ "'releaseDate' : { $gte : ?3 } }")
+	public List<Movie> findByAll(@Param("title") String title, 
+			@Param("mainActor") String mainActor, 
+			@Param("category") String category, 
+			@Param("releaseDate")@DateTimeFormat(pattern = "MM-dd-yyyy") Date releaseDate);
+	
 }
