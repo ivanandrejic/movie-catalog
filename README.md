@@ -21,6 +21,16 @@ mvn clean package
 mvn spring-boot:run
 ```
 
+## Test
+
+Server starts at https://localhost:8443/
+There are two predefined users:
+
+| Username | Password |
+| -------- | -------- |
+| admin    | demo     |
+| user     | demo     |
+
 
 
 
