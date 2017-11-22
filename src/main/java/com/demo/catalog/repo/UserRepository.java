@@ -10,14 +10,23 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.demo.catalog.domain.SecureUser;
 
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RepositoryRestResource(exported = true)
 public interface UserRepository extends MongoRepository<SecureUser, String> {
-
+	
+	@RestResource(exported = false)
+	public SecureUser findByUsername(@Param("username")String username);
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public List<SecureUser> findByUsernameStartingWith(@Param("username")String username);
+	
+	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public List<SecureUser> findAll();
 	
 	@Override
 	@RestResource(exported = false)
 	void deleteAll();
+	
+	
 
 }
