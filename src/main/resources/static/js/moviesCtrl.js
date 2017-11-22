@@ -4,17 +4,19 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	$scope.searchMovies = function searchMovies() {
 		if ($rootScope.currentUser) {
 			console.log('current movies: ' + JSON.stringify($rootScope.currentUser));
-			let Movie = $resource(getAllUrl());
+			let ResMovie;
 			if ($scope.byTitle || $scope.byActor || $scope.byCategory || $scope.byDate) {			
-				Movie = $resource(getNameUrl(), 
+				ResMovie = $resource(getNameUrl(), 
 					{ title: $scope.byTitle,
 					  mainActor: $scope.byActor, 
 					  category: $scope.byCategory, 
 					  releaseDate: ($scope.byDate?  $scope.byDate : '1-1-1900')});
-			} 
-			let movies = Movie.get(null, function () {
-				console.debug('movies: ' + movies);
-				$scope.movies = movies._embedded.movies;
+			} else {
+				ResMovie = $resource(getAllUrl());
+			}
+			let m = ResMovie.get(null, function () {
+				console.debug('movies: ' + m);
+				$scope.movies = m._embedded.movies;
 			});
 		}
 	}	
@@ -82,18 +84,6 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     	}
     }
     
-    function readIcon(formName, fileName, callback) {
-    	var fileInput = document.forms[formName]["file"];
-    	var file = fileInput.files[0];
-    	if (file) {
-    		var reader = new FileReader();
-    		reader.onloadend = function() {
-    			callback(reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, ""));
-    		}
-    		reader.readAsDataURL(file);
-    	}
-    }
-    
     $scope.cancelMovie = function cancelMovie(movie) {
     	movie.edit = false;
     	let index = $scope.movies.indexOf(movie);
@@ -116,23 +106,4 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	$scope.movies = [];
 	$scope.error = false;
 	
-}]);
-
-app.directive("imageread", [function () {
-    return {
-        scope: {
-        	imageread: "="
-        },
-        link: function (scope, element, attributes) {
-            element.bind("change", function (changeEvent) {
-                var reader = new FileReader();
-                reader.onload = function (loadEvent) {
-                    scope.$apply(function () {
-                        scope.imageread = loadEvent.target.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-                    });
-                }
-                reader.readAsDataURL(changeEvent.target.files[0]);
-            });
-        }
-    }
 }]);

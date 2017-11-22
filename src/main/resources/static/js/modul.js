@@ -20,7 +20,7 @@ app.config(function($routeProvider, $httpProvider) {
 		controllerAs: 'controller'
 	}).otherwise('/');
 	
-//	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	
 });
 
@@ -145,6 +145,25 @@ app.factory('Movie', ['$resource', function($resource) {
 app.factory('User', ['$resource', function($resource) {
 	return $resource('rest/secureUsers/:id', null,
 	    {'update': { method:'PUT' }});
+}]);
+
+app.directive("imageread", [function () {
+    return {
+        scope: {
+        	imageread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.imageread = loadEvent.target.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                    });
+                }
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    }
 }]);
 
 function getId(data) {

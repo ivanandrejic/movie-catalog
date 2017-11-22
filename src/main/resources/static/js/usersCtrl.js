@@ -11,19 +11,19 @@ app.controller('users', ['$rootScope', '$scope', '$http', '$resource', 'User', f
 		
 		if ($rootScope.currentUser) {
 			console.log('current user: ' + JSON.stringify($rootScope.currentUser));
-			let User = $resource(getAllUrl());
+			let ResUser = $resource(getAllUrl());
 			if ($scope.byName) {			
-				User = $resource(getNameUrl(), { username: $scope.byName });
+				ResUser = $resource(getNameUrl(), { username: $scope.byName });
 			}
-			let users = User.get(null, function () {
-				console.debug('users: ' + users);
-				$scope.users = users._embedded.secureUsers;
+			let u = ResUser.get(null, function () {
+				console.debug('users: ' + u);
+				$scope.users = u._embedded.secureUsers;
 			});
 		}
 	}
 	
 	function getNameUrl() {
-		return '/rest/secureUsers/search/findByUsernameContaining?username=:username';
+		return '/rest/secureUsers/search/findByUsernameStartingWith?username=:username';
 	}
 	
 	function getAllUrl() {
