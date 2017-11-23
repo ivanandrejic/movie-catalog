@@ -49,11 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 				.and()
 			.csrf()
-//				.disable()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
-			.requiresChannel()
-                .anyRequest().requiresSecure()
+				.disable()
+//				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//				.and()
+//			.requiresChannel()
+//                .anyRequest().requiresSecure()
 				;
 	}
 
