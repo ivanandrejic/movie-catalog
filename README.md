@@ -5,7 +5,7 @@
 2. JDK 1.8
 3. MongoDB 3.2
 
-## Setup 
+## Local Setup 
 
 1. Download or git clone
 2. Init MongoDB with movies database from src\main\resources\init-dump:
@@ -20,10 +20,18 @@ mvn clean package
 ```
 mvn spring-boot:run
 ```
+Server starts at http://localhost:8080/
+
+## Cloud
+
+Application is deployed to Heroku platform and there is MongoDB setup on mLab.
+```
+https://movies-demo.herokuapp.com/
+```
+To use remote DB from localhost change **application.properties** set **spring.data.mongodb.uri**.
 
 ## Test
 
-Server starts at https://localhost:8443/
 There are two predefined users:
 
 | Username | Password |
@@ -31,6 +39,15 @@ There are two predefined users:
 | admin    | demo     |
 | user     | demo     |
 
+## HTTPS Setup
 
-
+To setup https for localhost change **application.properties**:
+```
+server.port: 8443
+server.ssl.key-store: keystore.p12
+server.ssl.key-store-password: movies
+server.ssl.keyStoreType: PKCS12
+server.ssl.keyAlias: movies
+```
+Also **SecurityConfig** class need to be changed.
 
