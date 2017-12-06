@@ -49,11 +49,10 @@
 			<tr ng-repeat="movie in movies">
 				<td ng-show="!movie.edit">{{movie.title}}</td>
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.title"/></td>
-				<td ng-show="!movie.edit">{{movie.category}}</td>
+				<td ng-show="!movie.edit">{{ getCategory(movie.categories) }}</td>
 				<td ng-show="movie.edit">
-					<select name="category" id="category" style="width:150px;"  
-						ng-model="categories" 
-						ng-options="c as title for c in categories track by c.id">
+					<select size="3" name="category" id="category" style="width:150px;" multiple ng-model="movie.categories">
+						<option ng-repeat="option in categories" ng-value="option">{{option.title}}</option>
 				    </select>
 				</td>
 				<td ng-show="!movie.edit">{{ formatDate(movie.releaseDate) }}</td>

@@ -152,7 +152,9 @@ app.factory('Movie', ['$resource', function($resource) {
 
 app.factory('Category', ['$resource', function($resource) {
 	return $resource('rest/movieCategories/:id', null,
-			{'update': { method:'PUT' }});
+			{'update': { 
+				method:'PUT'
+			}});
 }]);
 
 app.factory('User', ['$resource', function($resource) {

@@ -17,6 +17,17 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 			let m = ResMovie.get(null, function () {
 				console.debug('movies: ' + m);
 				$scope.movies = m._embedded.movies;
+				$scope.movies.forEach(
+						movie => {
+							let columns = $resource('/rest/movies/'+ getId(movie) + '/categories').get(null, function(){
+								movie.categories = columns;
+							});
+						});
+			});
+			
+			let c = $resource('/rest/movieCategories/').get(null, function () {
+				console.debug('categories: ' + c);
+				$scope.categories = c._embedded.movieCategories;
 			});
 		}
 	}	
@@ -30,6 +41,15 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	}
 	
 	$scope.searchMovies();
+	
+	$scope.getCategory = function (category) {
+		if (!category) {
+			return ''
+		} else if (category._embedded) {
+			return category._embedded.movieCategories.map(x => x.title);
+		} 
+		return category;
+	}
 	
     $scope.addMovie = function addMovie() {
         $scope.movies.push({
@@ -57,7 +77,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     	movie.edit = false;
     	let movieToSave = {};
     	movieToSave.title = movie.title;
-    	movieToSave.category = movie.category;
+    	movieToSave.categories = movie.categories.map(c => c._links.self.href);
     	movieToSave.releaseDate = movie.releaseDate;
     	movieToSave.mainActor = movie.mainActor;
     	movieToSave.iconData = movie.iconData;
@@ -65,6 +85,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.save(null, movieToSave, function(value) {
     			console.log('saved movie: ' + value)
     			$scope.movies[index] = value;
+    			$resource('/rest/movies-controll/').save(null, { movie: getId(value), categories: movie.categories.map(c => getId(c))})
     		}, function () {
     			console.log('save movie error');
     			$scope.error = true;
@@ -75,6 +96,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.update({ id:movieToSave.id }, movieToSave, function(value) {
     			console.log('updated movie sucess');
     			$scope.movies[index] = value;
+    			$resource('/rest/movies-controll/').save(null, { movie: movieToSave.id, categories: movie.categories.map(c => getId(c))})
     		}, function () {
     			console.log('updated movie error');
     			$scope.error = true;

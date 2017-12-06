@@ -1,7 +1,8 @@
 package com.demo.catalog.domain;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -22,7 +23,7 @@ public class Movie {
 	private String iconData;
 	
 	@DBRef
-	private List<MovieCategory> categories;
+	private Set<MovieCategory> categories = new HashSet<>();
 	
 
 }
