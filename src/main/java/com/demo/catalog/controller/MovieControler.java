@@ -24,6 +24,7 @@ public class MovieControler {
 	@RequestMapping(method = RequestMethod.POST)
     public void saveCategory(@RequestBody MoviesWrapper request){
         Movie movie = movieRepository.findOne(request.getMovie());
+        movie.getCategories().clear();
         for (String categoryId: request.getCategories()) {
         	MovieCategory findOne = categoryRepo.findOne(categoryId);
         	movie.getCategories().add(findOne);

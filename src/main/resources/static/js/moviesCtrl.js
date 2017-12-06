@@ -48,7 +48,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 		} else if (category._embedded) {
 			return category._embedded.movieCategories.map(x => x.title);
 		} 
-		return category;
+		return category.map(x => x.title);
 	}
 	
     $scope.addMovie = function addMovie() {
@@ -77,7 +77,11 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     	movie.edit = false;
     	let movieToSave = {};
     	movieToSave.title = movie.title;
-    	movieToSave.categories = movie.categories.map(c => c._links.self.href);
+    	let categ = [];
+    	if (movie.categories instanceof Array) {    		
+    		categ = movie.categories.map(c => getId(c));
+    	}
+    	
     	movieToSave.releaseDate = movie.releaseDate;
     	movieToSave.mainActor = movie.mainActor;
     	movieToSave.iconData = movie.iconData;
@@ -85,7 +89,8 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.save(null, movieToSave, function(value) {
     			console.log('saved movie: ' + value)
     			$scope.movies[index] = value;
-    			$resource('/rest/movies-controll/').save(null, { movie: getId(value), categories: movie.categories.map(c => getId(c))})
+    			$resource('/rest/movies-controll/').save(null, { movie: getId(value), categories: categ})
+    			$scope.movies[index].categories = movie.categories;
     		}, function () {
     			console.log('save movie error');
     			$scope.error = true;
@@ -96,7 +101,8 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.update({ id:movieToSave.id }, movieToSave, function(value) {
     			console.log('updated movie sucess');
     			$scope.movies[index] = value;
-    			$resource('/rest/movies-controll/').save(null, { movie: movieToSave.id, categories: movie.categories.map(c => getId(c))})
+    			$resource('/rest/movies-controll/').save(null, { movie: movieToSave.id, categories: categ})
+    			$scope.movies[index].categories = movie.categories;
     		}, function () {
     			console.log('updated movie error');
     			$scope.error = true;
