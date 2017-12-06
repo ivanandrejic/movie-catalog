@@ -27,8 +27,9 @@
 		<ul class="nav nav-pills" role="tablist">
 			<li ng-class="{ active: isSet(1)}"><a href ng-click="setTab(1)">home</a></li>
 			<li ng-show="authenticated && isMoviesVisible()" ng-class="{ active: isSet(2)}"><a href ng-click="setTab(2)">movies</a></li>
-			<li ng-show="authenticated && isUsersVisible()" ng-class="{ active: isSet(3)}"><a href ng-click="setTab(3)">users</a></li>
-			<li ng-show="!authenticated" ng-class="{ active: isSet(4)}"><a href ng-click="setTab(4)">login</a></li>
+			<li ng-show="authenticated && isMoviesVisible()" ng-class="{ active: isSet(3)}"><a href ng-click="setTab(3)">categories</a></li>
+			<li ng-show="authenticated && isUsersVisible()" ng-class="{ active: isSet(4)}"><a href ng-click="setTab(4)">users</a></li>
+			<li ng-show="!authenticated" ng-class="{ active: isSet(5)}"><a href ng-click="setTab(5)">login</a></li>
 			<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
 		</ul>
 		
@@ -41,5 +42,6 @@
 	<script type="text/javascript" src="js/modul.js"></script>
 	<script type="text/javascript" src="js/usersCtrl.js"></script>
 	<script type="text/javascript" src="js/moviesCtrl.js"></script>
+	<script type="text/javascript" src="js/categoriesCtrl.js"></script>
 </body>
 </html>

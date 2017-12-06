@@ -14,6 +14,10 @@ app.config(function($routeProvider, $httpProvider) {
 		templateUrl : 'movies.html',
 		controller : 'movies',
 		controllerAs: 'controller'
+	}).when('/categories', {
+		templateUrl : 'categories.html',
+		controller : 'categories',
+		controllerAs: 'controller'
 	}).when('/users', {
 		templateUrl : 'users.html',
 		controller : 'users',
@@ -86,6 +90,7 @@ app.controller('navigation', ['$rootScope', '$scope', '$http', '$location', 'aut
     $scope.templates =
         [{ name: 'home', url: '/home'},
          { name: 'movies', url: '/movies'},
+         { name: 'categories', url: '/categories'},
          { name: 'users', url: '/users'},
          { name: 'login', url: '/login'}];
     $scope.template = $scope.templates[0];
@@ -106,6 +111,9 @@ app.controller('navigation', ['$rootScope', '$scope', '$http', '$location', 'aut
     	return authService.getRole() && authService.getRole() == 'ROLE_ADMIN'; 
     }
     $rootScope.isMoviesVisible = function() {
+    	return authService.getRole() && (authService.getRole() == 'ROLE_USER' || authService.getRole() == 'ROLE_ADMIN'); 
+    }
+    $rootScope.isCategoriesVisible = function() {
     	return authService.getRole() && (authService.getRole() == 'ROLE_USER' || authService.getRole() == 'ROLE_ADMIN'); 
     }
     
@@ -139,6 +147,11 @@ app.controller('home', ['$rootScope', '$scope', function($rootScope, $scope) {
 
 app.factory('Movie', ['$resource', function($resource) {
 	return $resource('rest/movies/:id', null,
+			{'update': { method:'PUT' }});
+}]);
+
+app.factory('Category', ['$resource', function($resource) {
+	return $resource('rest/movieCategories/:id', null,
 			{'update': { method:'PUT' }});
 }]);
 

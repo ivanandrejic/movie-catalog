@@ -39,7 +39,7 @@
 		<thead>
 			<tr>
 				<th>Title</th>
-				<th>Category</th>
+				<th>Categories</th>
 				<th>Release Date</th>
 				<th>Main Actor</th>
 				<th>Icon</th>
@@ -50,7 +50,12 @@
 				<td ng-show="!movie.edit">{{movie.title}}</td>
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.title"/></td>
 				<td ng-show="!movie.edit">{{movie.category}}</td>
-				<td ng-show="movie.edit"><input type="text" ng-model="movie.category"/></td>
+				<td ng-show="movie.edit">
+					<select name="category" id="category" style="width:150px;"  
+						ng-model="categories" 
+						ng-options="c as title for c in categories track by c.id">
+				    </select>
+				</td>
 				<td ng-show="!movie.edit">{{ formatDate(movie.releaseDate) }}</td>
 				<td ng-show="movie.edit"><input type="text" ng-model="movie.releaseDate"/></td>
 				<td ng-show="!movie.edit">{{movie.mainActor}}</td>

@@ -1,6 +1,5 @@
 package com.demo.catalog.domain;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -9,20 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
-@Document(collection = "movies")
+@Document(collection = "category")
 @Data
-public class Movie {
+public class MovieCategory {
 	
 	private @Id String id;
 	
 	private String title;
-	private String category;
-	private Date releaseDate;
-	private String mainActor;
-	private String iconData;
+	private String description;
 	
 	@DBRef
-	private List<MovieCategory> categories;
-	
+	private List<Movie> movies;
 
 }

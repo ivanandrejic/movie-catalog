@@ -23,7 +23,6 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	
 	function getNameUrl() {
 		return '/rest/movies/search/findByAll?title=:title&mainActor=:mainActor&category=:category&releaseDate=:releaseDate';
-//		return '/rest/movies/search/findByTitleStartingWith?title=:title';
 	}
 	
 	function getAllUrl() {
@@ -104,6 +103,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     }
 	
 	$scope.movies = [];
+	$scope.categories = [];
 	$scope.error = false;
 	
 }]);

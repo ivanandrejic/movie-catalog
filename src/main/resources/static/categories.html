@@ -1,0 +1,60 @@
+<h1>Categories</h1>
+<div ng-show="authenticated">
+
+	<div class="alert alert-danger" ng-show="error">
+		There was a problem.
+	</div>
+
+	<h4>Current user: {{currentUser.username}}</h4>
+	
+	<div class="input-group">
+        <span class="input-group-addon" id="byTitleDesc">Title</span>
+  		<input id="byTitle" type="text" ng-model="byTitle" class="form-control" aria-describedby="byTitleDesc">
+    </div>
+
+	<br>
+	
+	<button type="button" ng-click="searchCategories()" class="btn btn-sm btn-success">
+		<i class="glyphicon glyphicon-search">
+		</i> Search
+	</button>
+
+	<button type="button" ng-click="addCategory()" class="btn btn-sm btn-success">
+		<i class="glyphicon glyphicon-plus">
+		</i> Add
+	</button>
+	<table st-table="categories" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+		    </tr>
+	    </thead>
+	    <tbody>
+			<tr ng-repeat="category in categories">
+				<td ng-show="!category.edit">{{category.title}}</td>
+				<td ng-show="category.edit"><input type="text" ng-model="category.title"/></td>
+				<td ng-show="!category.edit">{{category.description}}</td>
+				<td ng-show="category.edit"><input type="text" ng-model="category.description"/></td>
+				<td>
+				<button ng-show="!category.edit" type="button" ng-click="editCategory(category)" class="btn btn-sm btn-danger">
+					<i class="glyphicon glyphicon-pencil">
+					</i>
+				</button>
+				<button ng-show="!category.edit" type="button" ng-click="removeCategory(category)" class="btn btn-sm btn-danger">
+					<i class="glyphicon glyphicon-remove-circle">
+					</i>
+				</button>
+				<button ng-show="category.edit" type="button" ng-click="saveCategory(category)" class="btn btn-sm btn-danger">
+					<i class="glyphicon glyphicon-ok">
+					</i>
+				</button>
+				<button ng-show="category.edit" type="button" ng-click="cancelCategory(category)" class="btn btn-sm btn-danger">
+					<i class="glyphicon glyphicon-remove">
+					</i>
+				</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
