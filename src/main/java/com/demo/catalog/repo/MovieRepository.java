@@ -22,11 +22,11 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	
 	public List<Movie> findByCategoryStartingWith(@Param("category") String category);
 	
-	public List<Movie> findByReleaseDateStartingWith(@Param("releaseDate") Date releaseDate);
+	public List<Movie> findByReleaseDateAfter(@Param("releaseDate")@DateTimeFormat(pattern = "MM-dd-yyyy") Date releaseDate);
 
-	@Query("{ 'title' : { $regex: ?0 },"
-			+ "'mainActor' : { $regex: ?1 }, "
-			+ "'category' : { $regex: ?2 }, "
+	@Query("{ 'title' : { $regex: '^?0' },"
+			+ "'mainActor' : { $regex: '^?1' },"
+//			+ "'categories.$title' : { $regex: '^?2' },"
 			+ "'releaseDate' : { $gte : ?3 } }")
 	public List<Movie> findByAll(@Param("title") String title, 
 			@Param("mainActor") String mainActor, 

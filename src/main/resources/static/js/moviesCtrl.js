@@ -5,11 +5,10 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 		if ($rootScope.currentUser) {
 			console.log('current movies: ' + JSON.stringify($rootScope.currentUser));
 			let ResMovie;
-			if ($scope.byTitle || $scope.byActor || $scope.byCategory || $scope.byDate) {			
+			if ($scope.byTitle || $scope.byActor || $scope.byDate) {			
 				ResMovie = $resource(getNameUrl(), 
 					{ title: $scope.byTitle,
-					  mainActor: $scope.byActor, 
-					  category: $scope.byCategory, 
+					  mainActor: $scope.byActor,  
 					  releaseDate: ($scope.byDate?  $scope.byDate : '1-1-1900')});
 			} else {
 				ResMovie = $resource(getAllUrl());
@@ -33,7 +32,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	}	
 	
 	function getNameUrl() {
-		return '/rest/movies/search/findByAll?title=:title&mainActor=:mainActor&category=:category&releaseDate=:releaseDate';
+		return '/rest/movies/search/findByAll?title=:title&mainActor=:mainActor&releaseDate=:releaseDate';
 	}
 	
 	function getAllUrl() {
