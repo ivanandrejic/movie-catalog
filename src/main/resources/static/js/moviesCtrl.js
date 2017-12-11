@@ -5,16 +5,21 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 		if ($rootScope.currentUser) {
 			console.log('current movies: ' + JSON.stringify($rootScope.currentUser));
 			let ResMovie;
-			if ($scope.byTitle || $scope.byActor || $scope.byDate) {			
+			if ($scope.byTitle || $scope.byActor || $scope.byCategory || $scope.byDate) {			
 				ResMovie = $resource(getNameUrl(), 
-					{ title: $scope.byTitle,
-					  mainActor: $scope.byActor,  
+					{ title: ($scope.byTitle?  $scope.byTitle : '^'),
+					  mainActor: ($scope.byActor?  $scope.byActor : '^'),  
+					  category: ($scope.byCategory?  $scope.byCategory : '^'), 
 					  releaseDate: ($scope.byDate?  $scope.byDate : '1-1-1900')});
 			} else {
 				ResMovie = $resource(getAllUrl());
 			}
 			let m = ResMovie.get(null, function () {
 				console.debug('movies: ' + m);
+				if (!m._embedded) {
+					$scope.movies = [];
+					return;
+				}
 				$scope.movies = m._embedded.movies;
 				$scope.movies.forEach(
 						movie => {
@@ -32,7 +37,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
 	}	
 	
 	function getNameUrl() {
-		return '/rest/movies/search/findByAll?title=:title&mainActor=:mainActor&releaseDate=:releaseDate';
+		return '/rest/movies/search/findByAll/:title/:mainActor/:category/:releaseDate';
 	}
 	
 	function getAllUrl() {
@@ -88,7 +93,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.save(null, movieToSave, function(value) {
     			console.log('saved movie: ' + value)
     			$scope.movies[index] = value;
-    			$resource('/rest/movies-controll/').save(null, { movie: getId(value), categories: categ})
+    			$resource('/rest/movies/categories').save(null, { movie: getId(value), categories: categ})
     			$scope.movies[index].categories = movie.categories;
     		}, function () {
     			console.log('save movie error');
@@ -100,7 +105,7 @@ app.controller('movies', ['$rootScope', '$scope', '$resource', 'Movie', 'authSer
     		Movie.update({ id:movieToSave.id }, movieToSave, function(value) {
     			console.log('updated movie sucess');
     			$scope.movies[index] = value;
-    			$resource('/rest/movies-controll/').save(null, { movie: movieToSave.id, categories: categ})
+    			$resource('/rest/movies/categories').save(null, { movie: movieToSave.id, categories: categ})
     			$scope.movies[index].categories = movie.categories;
     		}, function () {
     			console.log('updated movie error');
