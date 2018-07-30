@@ -28,6 +28,12 @@ Application is deployed to Heroku platform and there is MongoDB setup on mLab.
 ```
 https://movies-demo.herokuapp.com/
 ```
+
+AWS deployment:
+```
+http://moviecatalog-env-1.uwffymp7xp.us-east-2.elasticbeanstalk.com
+```
+
 To use remote DB from localhost change **application.properties** set **spring.data.mongodb.uri**.
 
 ## Test
